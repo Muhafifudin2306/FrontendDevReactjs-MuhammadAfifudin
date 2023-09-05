@@ -1,0 +1,20 @@
+@import url('https://fonts.googleapis.com/css2?family=Lexend+Deca:wght@700;900&family=Nunito:wght@400;700;900&display=swap');
+
+:root {
+    --body-color: #F3F3F3;
+    --title-font: 'Lexend Deca', sans-serif;
+    --text-font: 'Nunito', sans-serif;
+}
+
+body {
+    background-color: var(--body-color) !important;
+    font-family: var(--text-font) !important;
+}
+
+.title-font {
+    font-family: var(--title-font) !important;
+}
+
+.text-font {
+    font-family: var(--text-font) !important;
+}
