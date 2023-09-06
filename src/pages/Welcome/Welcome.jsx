@@ -8,7 +8,7 @@ function WelcomePage() {
       <div className="container">
         <div className="row align-items-center justify-content-center vh-100">
           <div className="col-md-8 col-lg-5 col-12">
-            <div className="welcome-card bg-white border rounded">
+            <div className="welcome-card bg-white border rounded shadow-sm">
               <div className="px-4 py-3">
                 <div className="card-image">
                   <img

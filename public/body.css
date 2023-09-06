@@ -18,3 +18,27 @@ body {
 .text-font {
     font-family: var(--text-font) !important;
 }
+
+.fs-7 {
+    font-size: 0.9rem;
+}
+
+.fs-8 {
+    font-size: 0.8rem;
+}
+
+.h-2 {
+    height: 200px !important;
+}
+
+.layer-cover {
+    height: 200px !important;
+    margin-top: -200px !important;
+    background-color: #1E1E1E;
+    opacity: 50%;
+}
+
+.layer-cover:hover {
+    opacity: 0% !important;
+    transition-duration: 1s;
+}
