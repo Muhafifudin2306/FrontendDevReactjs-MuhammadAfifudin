@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 
-import Shibuya from "../../assets/images/shibuya.jpg";
 import Profile from "../../assets/images/profile.jpg";
 
 function MainPage() {
@@ -299,14 +298,14 @@ function MainPage() {
                       <button
                         className="btn btn-primary fw-bold w-100 fs-7"
                         data-bs-toggle="modal"
-                        data-bs-target="#restoModal"
+                        data-bs-target={`#restoModal-${restaurant.id}`}
                       >
                         Learn More
                       </button>
 
                       <div
                         className="modal fade"
-                        id="restoModal"
+                        id={`restoModal-${restaurant.id}`}
                         tabindex="-1"
                         aria-labelledby="restoModalLabel"
                         aria-hidden="true"
@@ -334,52 +333,60 @@ function MainPage() {
                                     <img
                                       className="w-100 rounded-2 object-fit-cover"
                                       height="250"
-                                      src={Shibuya}
+                                      src={restaurant.image}
                                       alt=""
                                     />
                                   </div>
 
                                   <div className="resto-name mb-3">
                                     <h5 className="fw-bold title-font">
-                                      Shibuya Sushi - Fresh japanese sushi and
-                                      fish
+                                      {restaurant.restaurant_name}
                                     </h5>
                                     <div className="facility-item d-flex gap-1">
-                                      <i className="bi bi-star-fill text-warning"></i>
-                                      <i className="bi bi-star-fill text-warning"></i>
-                                      <i className="bi bi-star-fill text-warning"></i>
-                                      <i className="bi bi-star-fill text-warning"></i>
-                                      <i className="bi bi-star-half text-warning"></i>
-                                      <span className="fs-7">(4.5/5)</span>
+                                      {[
+                                        ...Array(Math.floor(restaurant.rating)),
+                                      ].map((_, index) => (
+                                        <i
+                                          key={index}
+                                          className="bi bi-star-fill text-warning"
+                                        ></i>
+                                      ))}
+                                      <span className="fs-7">
+                                        ({restaurant.rating}/5)
+                                      </span>
                                     </div>
                                   </div>
 
                                   <div className="detail-facility">
                                     <div className="facility-item mb-1">
                                       <i className="bi bi-cart2"></i>
-                                      <span className="mx-2 fs-8">Sushi</span>
+                                      <span className="mx-2 fs-8">
+                                        {restaurant.category_name}
+                                      </span>
                                     </div>
                                     <div className="facility-item mb-1">
                                       <i className="bi bi-wallet2"></i>
                                       <span className="mx-2 fs-8">
-                                        Rp25.000 - Rp 330.000
+                                        {restaurant.price_name}
                                       </span>
                                     </div>
-                                    <div className="facility-item mb-1">
-                                      <i className="bi bi-circle-fill text-success fs-8"></i>
-                                      <span className="mx-2 fs-8">
-                                        Open Now
-                                      </span>
+                                    <div className="facility-item mb-3">
+                                      {restaurant.status === 1 ? (
+                                        <span>
+                                          <i className="bi bi-circle-fill text-success fs-8"></i>
+                                          <span className="mx-2 fs-8">
+                                            Open Now
+                                          </span>
+                                        </span>
+                                      ) : (
+                                        <span>
+                                          <i className="bi bi-circle-fill text-danger fs-8"></i>
+                                          <span className="mx-2 fs-8">
+                                            Close
+                                          </span>
+                                        </span>
+                                      )}
                                     </div>
-                                  </div>
-                                  <div className="py-3">
-                                    <button
-                                      className="btn btn-primary fw-bold w-100 fs-7"
-                                      data-bs-toggle="modal"
-                                      data-bs-target="#formModal"
-                                    >
-                                      Berikan Penilaian Anda
-                                    </button>
                                   </div>
                                 </div>
                                 <div className="col-lg-5 col-md-6">
@@ -388,46 +395,55 @@ function MainPage() {
                                       <h6 className="fw-bold title-font my-3">
                                         Ringkasan Ulasan
                                       </h6>
-                                      <div className="user-feedback">
-                                        <div className="d-flex gap-3">
-                                          <img
-                                            src={Profile}
-                                            className="object-fit-cover rounded-circle"
-                                            height="40"
-                                            width="40"
-                                            alt=""
-                                          />
-                                          <div className="user-desc">
-                                            <span className="fw-bold fs-7">
-                                              Muhammad Afifudin
-                                            </span>
-                                            <div className="facility-item d-flex gap-1">
-                                              <i className="bi bi-star-fill text-warning fs-8"></i>
-                                              <i className="bi bi-star-fill text-warning fs-8"></i>
-                                              <i className="bi bi-star-fill text-warning fs-8"></i>
-                                              <i className="bi bi-star-fill text-warning fs-8"></i>
-                                              <i className="bi bi-star-half text-warning fs-8"></i>
-                                              <span className="fs-8">
-                                                (4.5)
-                                              </span>
+                                      {restaurant.feedbacks.map((feedback) => (
+                                        <>
+                                          <div className="user-feedback">
+                                            <div className="d-flex gap-3">
+                                              <img
+                                                src={Profile}
+                                                className="object-fit-cover rounded-circle"
+                                                height="40"
+                                                width="40"
+                                                alt=""
+                                              />
+                                              <div className="user-desc">
+                                                <span className="fw-bold fs-7">
+                                                  {feedback.name}
+                                                </span>
+                                                <div className="facility-item d-flex gap-1 mb-1">
+                                                  {[
+                                                    ...Array(
+                                                      Math.floor(
+                                                        feedback.rating
+                                                      )
+                                                    ),
+                                                  ].map((_, index) => (
+                                                    <i
+                                                      key={index}
+                                                      className="bi bi-star-fill text-warning fs-8"
+                                                    ></i>
+                                                  ))}
+                                                  <span className="fs-8">
+                                                    ({feedback.rating})
+                                                  </span>
+                                                </div>
+                                                <div className="message">
+                                                  <p className="fs-8">
+                                                    {feedback.feedback_message}
+                                                  </p>
+                                                </div>
+                                              </div>
                                             </div>
-                                            <p className="fs-8">
-                                              Makanan enak, hangat, dan sesuai
-                                              dengan kantong
-                                            </p>
                                           </div>
-                                        </div>
-                                        <p className="text-primary text-decoration-underline fs-8">
-                                          Muat Lainnya
-                                        </p>
-                                      </div>
+                                        </>
+                                      ))}
                                     </div>
                                     <div className="location">
                                       <h6 className="fw-bold title-font">
                                         Lokasi Restaurant
                                       </h6>
                                       <iframe
-                                        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d4058504.2250734796!2d105.86362518733752!3d-6.599228665057419!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2e6ee316a63af01b%3A0x56735c8cb03b6aa9!2sShibuya%20Resto%20Cirebon!5e0!3m2!1sid!2sid!4v1693980193041!5m2!1sid!2sid"
+                                        src={restaurant.lokasi}
                                         className="w-100"
                                         title="myFrame"
                                         style={{ border: "0" }}
@@ -438,91 +454,6 @@ function MainPage() {
                                   </div>
                                 </div>
                               </div>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-
-                      <div
-                        className="modal fade"
-                        id="formModal"
-                        tabindex="-1"
-                        aria-labelledby="formModalLabel"
-                        aria-hidden="true"
-                      >
-                        <div class="modal-dialog modal-dialog-centered">
-                          <div className="modal-content">
-                            <div className="modal-header">
-                              <h1
-                                className="modal-title fs-6 fw-bold"
-                                id="formModalLabel"
-                              >
-                                Masukan Untuk Restaurant
-                              </h1>
-                              <button
-                                type="button"
-                                className="btn-close"
-                                data-bs-dismiss="modal"
-                                aria-label="Close"
-                              ></button>
-                            </div>
-                            <div className="modal-body">
-                              <form>
-                                <div class="mb-3">
-                                  <label
-                                    for="name"
-                                    class="form-label fs-7 fw-bold"
-                                  >
-                                    Nama Anda
-                                  </label>
-                                  <input
-                                    type="text"
-                                    class="form-control"
-                                    id="name"
-                                    placeholder="Rico Fajar"
-                                  />
-                                </div>
-                                <div class="mb-3">
-                                  <label
-                                    for="rating"
-                                    class="form-label fs-7 fw-bold"
-                                  >
-                                    Rating Anda
-                                  </label>
-                                  <input
-                                    type="text"
-                                    class="form-control"
-                                    id="rating"
-                                    placeholder="4.5"
-                                  />
-                                </div>
-                                <div class="form-group">
-                                  <label
-                                    for="feedback"
-                                    className="fs-7 fw-bold"
-                                  >
-                                    Masukan Anda
-                                  </label>
-                                  <textarea
-                                    class="form-control"
-                                    id="feedback"
-                                    rows="3"
-                                    placeholder="Masukan Anda"
-                                  ></textarea>
-                                </div>
-                              </form>
-                            </div>
-                            <div className="modal-footer">
-                              <button
-                                type="button"
-                                className="btn btn-secondary"
-                                data-bs-dismiss="modal"
-                              >
-                                Close
-                              </button>
-                              <button type="button" className="btn btn-primary">
-                                Submit
-                              </button>
                             </div>
                           </div>
                         </div>
